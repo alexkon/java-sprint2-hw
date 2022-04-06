@@ -1,9 +1,15 @@
+import managers.Manager;
+import tasks.Task;
+import tasks.Epic;
+import tasks.SubTask;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Пришло время практики!");
         Manager manager = new Manager();
 
         // Проверка : Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
+
         Task task1 = new Task("task", "Переезд", "Собрать коробки, Упаковать кошку,"
                      + " Сказать слова прощания", "NEW");
         manager.createTask(task1);
@@ -13,20 +19,17 @@ public class Main {
         Epic task3 = new Epic("epic", "Юбилей бабушки",
                     "Заказать ресторан, Купить подарок, Подготовить сценарий", "NEW");
         manager.createEpic(task3);
-        SubTask task4 = new SubTask(3, "subtask", "Заказать ресторан",
-                    "Украсить зал, Придумать меню", "NEW");
+        SubTask task4 = new SubTask("subtask", "Заказать ресторан",
+                    "Украсить зал, Придумать меню", "NEW", 3);
         manager.createSubTask(task4);
-
-        SubTask task5 = new SubTask(3, "subtask", "Подготовить сценарий",
-                       "Найти аниматора, Придумать конкурсы", "NEW");
+        SubTask task5 = new SubTask( "subtask", "Подготовить сценарий",
+                       "Найти аниматора, Придумать конкурсы", "NEW", 3);
         manager.createSubTask(task5);
-
         Epic task6 = new Epic("epic", "Поездка в отпуск",
                     "Выбрать место отдыха, Собрать вещи", "NEW");
         manager.createEpic(task6);
-
-        SubTask task7 = new SubTask(6, "subtask", "Выбрать место отдыха",
-                    "Забронировать гостиницу, Купить билеты", "NEW");
+        SubTask task7 = new SubTask("subtask", "Выбрать место отдыха",
+                    "Забронировать гостиницу, Купить билеты", "NEW",6);
         manager.createSubTask(task7);
 
         // печать объектов по идентификатору:
@@ -34,7 +37,7 @@ public class Main {
         System.out.println("Задача № "+ numberTask + ": " + manager.getEpicById(numberTask));
         numberTask = 2;
         System.out.println("Задача № "+ numberTask + ": " + manager.getTaskById(numberTask));
-        numberTask = 4;
+        numberTask = 7;
         System.out.println("Задача № "+ numberTask + ": " + manager.getSubTaskById(numberTask));
 
         // получение списка задач эпика № 3 по Epic.idSubTask:
@@ -46,30 +49,39 @@ public class Main {
         // простая задача:
         numberTask = 1;
         System.out.println("Текущий статус Задачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
-        Task task8 = new Task("task", "Переезд", "Собрать коробки, Упаковать кошку,"
-                + " Сказать слова прощания", "DONE");
-        manager.setUpdatedTask(numberTask, task8);
+        task1.setStatus("DONE");
+        manager.updatedTask(task1);
         System.out.println("Новый статус Задачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
 
         // подзадача:
         numberTask = 4;
         System.out.println("Текущий статус Задачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
-        SubTask task9 = new SubTask(3, "subtask", "Заказать ресторан",
-                "Украсить зал, Придумать меню", "DONE");
-        manager.setUpdatedSubTask(numberTask, task9);
+        task4.setStatus("DONE");
+        manager.updatedSubTask(task4);
         System.out.println("Новый статус подзадачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
         System.out.println("Новый статус Эпика № "+ (numberTask - 1)
                 + ": " + manager.getStatusById(numberTask-1));
+
+        numberTask = 5;
+        System.out.println("Текущий статус Задачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
+        task5.setStatus("NEW");
+        manager.updatedSubTask(task5);
+        System.out.println("Новый статус подзадачи № "+ numberTask + ": " + manager.getStatusById(numberTask));
+        System.out.println("Новый статус Эпика № 3: " + manager.getStatusById(3));
+        task3.setContent("Заказать ресторан, Купить подарок, Подготовить сценарий, Составить список гостей");
+        manager.updatedEpic(task3);
+        System.out.println("Эпик № 3: " + manager.getEpicById(3));
         // удаление задач
         manager.deleteTaskById(1);
-        System.out.println("Осталось задач - " + manager.task.size());
-        manager.deleteSubTaskById(5);
-        //manager.deleteEpicById(6);
-        System.out.println("Осталось эпиков - " + manager.epic.size());
-        System.out.println("Осталось подзадач - " + manager.subTask.size());
+        System.out.println("Осталось задач - " + manager.getTask().size());
+        manager.deleteSubTaskById(4);
+        System.out.println("Новый статус Эпика № 3: " + manager.getStatusById(3));
+        manager.deleteEpicById(3);
+        System.out.println("Осталось эпиков - " + manager.getEpic().size());
+        System.out.println("Осталось подзадач - " + manager.getSubTask());
         manager.deleteAllTask();
-        System.out.println("Осталось задач - " + manager.task.size());
-        System.out.println("Осталось задач - " + manager.subTask.size());
-        System.out.println("Осталось задач - " + manager.epic.size());
+        System.out.println("Осталось задач - " + manager.getTask().size());
+        System.out.println("Осталось эпиков - " + manager.getEpic().size());
+        System.out.println("Осталось подзадач - " + manager.getSubTask().size());
     }
 }
