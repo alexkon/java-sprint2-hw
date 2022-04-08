@@ -57,7 +57,7 @@ public class Task {
     @Override
     public String toString() {
         String result = "(номер задачи= " + id + ", тип задачи = " + type + ", статус= " + status + ", название= " + title;
-        result = result + ", описание:" + content +") " +'\n';
+        result = result + ", описание: " + content + ") " + '\n';
         return result;
     }
 }

@@ -2,8 +2,8 @@ package tasks;
 
 import java.util.ArrayList;
 
-public class Epic extends Task{
-    private ArrayList <SubTask> listSubTask;
+public class Epic extends Task {
+    private ArrayList<SubTask> listSubTask;
 
     public Epic(String type, String title, String content, String status) {
         super(type, title, content, status);
@@ -16,6 +16,11 @@ public class Epic extends Task{
 
     public ArrayList<SubTask> getListSubTask() {
         return listSubTask;
+    }
+
+    public void updatedListSubTask(SubTask subTask) {
+        int indexSubTask = this.listSubTask.indexOf(subTask);
+        this.listSubTask.set(indexSubTask, subTask);
     }
 
     public void deleteSubTask(SubTask subTask) {

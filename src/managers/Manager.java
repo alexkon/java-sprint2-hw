@@ -3,36 +3,20 @@ package managers;
 import tasks.Epic;
 import tasks.SubTask;
 import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Manager {
     private int id = 0;
     private HashMap<Integer, Task> taskTask = new HashMap<>();
-    // не знаю, как по-другому создать новую мапу, чтобы не нарушить инкапсуляцию!!!
     private HashMap<Integer, Epic> taskEpic = new HashMap<>();
     private HashMap<Integer, SubTask> taskSubTask = new HashMap<>();
-
-    public int getId() {
-        return ++this.id;
-    }
 
     public void createTask(Task task) {
         int number = getId();
         task.setId(number);
         this.taskTask.put(number, task);
-    }
-
-    public HashMap<Integer, Task> getTask() {
-        return taskTask;
-    }
-
-    public HashMap<Integer, Epic> getEpic() {
-        return taskEpic;
-    }
-
-    public HashMap<Integer, SubTask> getSubTask() {
-        return taskSubTask;
     }
 
     public void createSubTask(SubTask subTask) {
@@ -49,6 +33,18 @@ public class Manager {
         this.taskEpic.put(number, epic);
     }
 
+    public HashMap<Integer, Task> getTask() {
+        return taskTask;
+    }
+
+    public HashMap<Integer, Epic> getEpic() {
+        return taskEpic;
+    }
+
+    public HashMap<Integer, SubTask> getSubTask() {
+        return taskSubTask;
+    }
+
     public void updatedTask(Task task) {
         this.taskTask.put(task.getId(), task);
     }
@@ -60,18 +56,20 @@ public class Manager {
 
     public void updatedSubTask(SubTask subTask) {
         this.taskSubTask.put(subTask.getId(), subTask);
+        // обновляем подзадачу у Эпика
+        taskEpic.get(subTask.getIdEpic()).updatedListSubTask(subTask);
         setStatusEpic(subTask.getIdEpic());
     }
 
-    public Task getTaskById (int number) {
+    public Task getTaskById(int number) {
         return taskTask.getOrDefault(number, null);
     }
 
-    public SubTask getSubTaskById (int number) {
+    public SubTask getSubTaskById(int number) {
         return taskSubTask.getOrDefault(number, null);
     }
 
-    public Epic getEpicById (int number) {
+    public Epic getEpicById(int number) {
         return taskEpic.getOrDefault(number, null);
     }
 
@@ -91,14 +89,13 @@ public class Manager {
             return taskEpic.get(number).getStatus();
         } else if (taskSubTask.containsKey(number)) {
             return taskSubTask.get(number).getStatus();
-        }
-        else {
+        } else {
             System.out.println("Задачи с номером " + number + " нет в списке!");
             return null;
         }
     }
 
-    public void deleteTaskById (int number) {
+    public void deleteTaskById(int number) {
         if (taskTask.containsKey(number)) {
             taskTask.remove(number);
         } else {
@@ -142,6 +139,10 @@ public class Manager {
         this.id = 0;
     }
 
+    private int getId() {
+        return ++this.id;
+    }
+
     private void setStatusEpic(int idEpic) {
         ArrayList<SubTask> listSubTask = getListSubTasks(idEpic);
         boolean isStatusNew = false;
@@ -150,16 +151,16 @@ public class Manager {
 
         for (SubTask list : listSubTask) {
             switch (list.getStatus()) {
-            case ("NEW"):
-                isStatusNew = true;
-                break;
+                case ("NEW"):
+                    isStatusNew = true;
+                    break;
                 case ("IN_PROGRESS"):
                     isStatusInProgess = true;
                     break;
                 case ("DONE"):
                     isStatusDone = true;
                     break;
-                }
+            }
         }
 
         if (!isStatusNew && !isStatusInProgess && isStatusDone) {
