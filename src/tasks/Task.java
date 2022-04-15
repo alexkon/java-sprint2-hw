@@ -1,17 +1,18 @@
 package tasks;
 
+import managers.StatusTask;
+
 public class Task {
     protected int id;
     protected String type;
     protected String title;
     protected String content;
-    protected String status;
+    protected StatusTask status = StatusTask.NEW;
 
-    public Task(String type, String title, String content, String status) {
+    public Task(String type, String title, String content) {
         this.type = type;
         this.title = title;
         this.content = content;
-        this.status = status;
     }
 
     public void setId(int id) {
@@ -46,11 +47,11 @@ public class Task {
         this.title = title;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusTask status) {
         this.status = status;
     }
 
-    public String getStatus() {
+    public StatusTask getStatus() {
         return status;
     }
 

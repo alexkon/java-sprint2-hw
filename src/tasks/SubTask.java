@@ -3,8 +3,8 @@ package tasks;
 public class SubTask extends Task {
     private int idEpic;
 
-    public SubTask(String type, String title, String content, String status, int idEpic) {
-        super(type, title, content, status);
+    public SubTask(String type, String title, String content, int idEpic) {
+        super(type, title, content);
         this.idEpic = idEpic;
     }
 

@@ -6,19 +6,40 @@ import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class Manager {
+public class InMemoryTaskManager implements TaskManager {
     private int id = 0;
     private HashMap<Integer, Task> taskTask = new HashMap<>();
     private HashMap<Integer, Epic> taskEpic = new HashMap<>();
     private HashMap<Integer, SubTask> taskSubTask = new HashMap<>();
+    private List<Task> history = new ArrayList<>();
 
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
+
+    @Override
+    public void addHistory(Task task) {
+        if (!(task == null)) {
+            if (history.size() == 10) {
+                history.remove(0);
+            }
+            history.add(task);
+        }
+    }
+
+    @Override
+    public List<Task> getHistory() {
+        return history;
+    }
+
+    @Override
     public void createTask(Task task) {
         int number = getId();
         task.setId(number);
         this.taskTask.put(number, task);
     }
 
+    @Override
     public void createSubTask(SubTask subTask) {
         int number = getId();
         subTask.setId(number);
@@ -27,6 +48,7 @@ public class Manager {
         setStatusEpic(subTask.getIdEpic());
     }
 
+    @Override
     public void createEpic(Epic epic) {
         int number = getId();
         epic.setId(number);
@@ -45,34 +67,46 @@ public class Manager {
         return taskSubTask;
     }
 
+    @Override
     public void updatedTask(Task task) {
         this.taskTask.put(task.getId(), task);
     }
 
+    @Override
     public void updatedEpic(Epic epic) {
         this.taskEpic.put(epic.getId(), epic);
         setStatusEpic(epic.getId());
     }
 
+    @Override
     public void updatedSubTask(SubTask subTask) {
         this.taskSubTask.put(subTask.getId(), subTask);
-        // обновляем подзадачу у Эпика
         taskEpic.get(subTask.getIdEpic()).updatedListSubTask(subTask);
         setStatusEpic(subTask.getIdEpic());
     }
 
+    @Override
     public Task getTaskById(int number) {
+        //addHistory(taskTask.getOrDefault(number, null));
+        getHistory().add(taskTask.getOrDefault(number, null));
         return taskTask.getOrDefault(number, null);
     }
 
+    @Override
     public SubTask getSubTaskById(int number) {
+        //addHistory(taskSubTask.getOrDefault(number, null));
+        getHistory().add(taskSubTask.getOrDefault(number, null));
         return taskSubTask.getOrDefault(number, null);
     }
 
+    @Override
     public Epic getEpicById(int number) {
+        //addHistory(taskEpic.getOrDefault(number, null));
+        getHistory().add(taskEpic.getOrDefault(number, null));
         return taskEpic.getOrDefault(number, null);
     }
 
+    @Override
     public ArrayList<SubTask> getListSubTasks(int number) {
         if (!(getEpicById(number) == null)) {
             return getEpicById(number).getListSubTask();
@@ -82,7 +116,8 @@ public class Manager {
         }
     }
 
-    public String getStatusById(int number) {
+    @Override
+    public StatusTask getStatusById(int number) {
         if (taskTask.containsKey(number)) {
             return taskTask.get(number).getStatus();
         } else if (taskEpic.containsKey(number)) {
@@ -95,6 +130,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteTaskById(int number) {
         if (taskTask.containsKey(number)) {
             taskTask.remove(number);
@@ -103,6 +139,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteSubTaskById(int number) {
         if (taskSubTask.containsKey(number)) {
             // удаляем подзадачу у эпика
@@ -115,6 +152,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteEpicById(int number) {
         if (taskEpic.containsKey(number)) {
             for (SubTask subTaskEpic : taskEpic.get(number).getListSubTask()) {
@@ -126,6 +164,7 @@ public class Manager {
         }
     }
 
+    @Override
     public void deleteAllTask() {
         if (!taskTask.isEmpty()) {
             taskTask.clear();
@@ -150,7 +189,7 @@ public class Manager {
         boolean isStatusDone = false;
 
         for (SubTask list : listSubTask) {
-            switch (list.getStatus()) {
+            switch (list.getStatus().toString()) {
                 case ("NEW"):
                     isStatusNew = true;
                     break;
@@ -164,11 +203,11 @@ public class Manager {
         }
 
         if (!isStatusNew && !isStatusInProgess && isStatusDone) {
-            taskEpic.get(idEpic).setStatus("DONE");
+            taskEpic.get(idEpic).setStatus(StatusTask.DONE);
         } else if (isStatusNew && !isStatusInProgess && !isStatusDone) {
-            taskEpic.get(idEpic).setStatus("NEW");
+            taskEpic.get(idEpic).setStatus(StatusTask.NEW);
         } else {
-            taskEpic.get(idEpic).setStatus("IN_PROGRESS");
+            taskEpic.get(idEpic).setStatus(StatusTask.IN_PROGRESS);
         }
     }
 
