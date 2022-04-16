@@ -1,10 +1,8 @@
 import managers.InMemoryTaskManager;
-import managers.Managers;
 import managers.StatusTask;
-import managers.TaskManager;
 import tasks.Task;
 import tasks.Epic;
-import tasks.SubTask;
+import tasks.Subtask;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,16 +20,16 @@ public class Main {
         Epic task3 = new Epic("epic", "Юбилей бабушки",
                 "Заказать ресторан, Купить подарок, Подготовить сценарий");
         manager.createEpic(task3);
-        SubTask task4 = new SubTask("subtask", "Заказать ресторан",
+        Subtask task4 = new Subtask("subtask", "Заказать ресторан",
                 "Украсить зал, Придумать меню", 3);
         manager.createSubTask(task4);
-        SubTask task5 = new SubTask("subtask", "Подготовить сценарий",
+        Subtask task5 = new Subtask("subtask", "Подготовить сценарий",
                 "Найти аниматора, Придумать конкурсы", 3);
         manager.createSubTask(task5);
         Epic task6 = new Epic("epic", "Поездка в отпуск",
                 "Выбрать место отдыха, Собрать вещи");
         manager.createEpic(task6);
-        SubTask task7 = new SubTask("subtask", "Выбрать место отдыха",
+        Subtask task7 = new Subtask("subtask", "Выбрать место отдыха",
                 "Забронировать гостиницу, Купить билеты", 6);
         manager.createSubTask(task7);
         System.out.println("История запросов: " + manager.getHistory());

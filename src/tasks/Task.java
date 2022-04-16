@@ -2,6 +2,8 @@ package tasks;
 
 import managers.StatusTask;
 
+import java.util.Objects;
+
 public class Task {
     protected int id;
     protected String type;
@@ -57,8 +59,29 @@ public class Task {
 
     @Override
     public String toString() {
-        String result = "(номер задачи= " + id + ", тип задачи = " + type + ", статус= " + status + ", название= " + title;
+        String result = "(номер задачи= " + id + ", тип задачи = " + type + ", статус= " + status + ", " +
+                "название= " + title;
         result = result + ", описание: " + content + ") " + '\n';
         return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        Task otherTask = (Task) obj;
+        return (id == otherTask.id) &&
+                Objects.equals(type, otherTask.type) &&
+                Objects.equals(title, otherTask.title) &&
+                Objects.equals(content, otherTask.content) &&
+                Objects.equals(status, otherTask.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.type, this.title, this.content, this.status);
+    }
+
 }
+

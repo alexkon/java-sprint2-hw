@@ -1,29 +1,50 @@
 package tasks;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class Epic extends Task {
-    private ArrayList<SubTask> listSubTask;
+    private List<Subtask> subtasks;
 
     public Epic(String type, String title, String content) {
         super(type, title, content);
-        this.listSubTask = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
     }
 
-    public void setListSubTask(SubTask subTask) {
-        this.listSubTask.add(subTask);
+    public void setListSubTask(Subtask subTask) {
+        this.subtasks.add(subTask);
     }
 
-    public ArrayList<SubTask> getListSubTask() {
-        return listSubTask;
+    public List<Subtask> getListSubTask() {
+        return subtasks;
     }
 
-    public void updatedListSubTask(SubTask subTask) {
-        int indexSubTask = this.listSubTask.indexOf(subTask);
-        this.listSubTask.set(indexSubTask, subTask);
+    public void updatedListSubTask(Subtask subTask) {
+        int indexSubTask = this.subtasks.indexOf(subTask);
+        this.subtasks.set(indexSubTask, subTask);
     }
 
-    public void deleteSubTask(SubTask subTask) {
-        this.listSubTask.remove(subTask);
+    public void deleteSubTask(Subtask subTask) {
+        this.subtasks.remove(subTask);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (this.getClass() != obj.getClass()) return false;
+        Epic otherTask = (Epic) obj;
+        return (id == otherTask.id) &&
+                Objects.equals(type, otherTask.type) &&
+                Objects.equals(title, otherTask.title) &&
+                Objects.equals(content, otherTask.content) &&
+                Objects.equals(status, otherTask.status) &&
+                Objects.equals(subtasks, otherTask.subtasks);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.id, this.type, this.title, this.content, this.status, this.subtasks);
     }
 }
