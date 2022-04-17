@@ -10,26 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    public static final int HISTORY_LENGTH = 10;
+    //private final int historyMaxLength = 10;
     private int id = 0;
     private Map<Integer, Task> taskTask = new HashMap<>();
     private Map<Integer, Epic> taskEpic = new HashMap<>();
     private Map<Integer, Subtask> taskSubtask = new HashMap<>();
-    private List<Task> history = new ArrayList<>();
-
-    @Override
-    public void addHistory(Task task) {
-        if (task != null) {
-            if (history.size() == HISTORY_LENGTH) {
-                history.remove(0);
-            }
-            history.add(task);
-        }
-    }
+    private HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
     public List<Task> getHistory() {
-        return history;
+        return historyManager.getHistory();
     }
 
     @Override
@@ -87,19 +77,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int number) {
-        addHistory(taskTask.getOrDefault(number, null));
+        historyManager.add(taskTask.getOrDefault(number, null));
         return taskTask.getOrDefault(number, null);
     }
 
     @Override
     public Subtask getSubTaskById(int number) {
-        addHistory(taskSubtask.getOrDefault(number, null));
+        historyManager.add(taskTask.getOrDefault(number, null));
         return taskSubtask.getOrDefault(number, null);
     }
 
     @Override
     public Epic getEpicById(int number) {
-        addHistory(taskEpic.getOrDefault(number, null));
+        historyManager.add(taskTask.getOrDefault(number, null));
         return taskEpic.getOrDefault(number, null);
     }
 

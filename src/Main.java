@@ -1,5 +1,4 @@
-import managers.InMemoryTaskManager;
-import managers.StatusTask;
+import managers.*;
 import tasks.Task;
 import tasks.Epic;
 import tasks.Subtask;
@@ -8,9 +7,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Пришло время практики!");
         InMemoryTaskManager manager = new InMemoryTaskManager();
+    /* Денис, писала в Слаке, решила все-таки послать весь проект:
+    Что не так? История пустая, хотя
+    historyManager.add(taskTask.getOrDefault(number, null)); - работает
+    */
 
         // Проверка : Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
-
         Task task1 = new Task("task", "Переезд", "Собрать коробки, Упаковать кошку,"
                 + " Сказать слова прощания");
         manager.createTask(task1);
