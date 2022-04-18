@@ -7,9 +7,8 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Пришло время практики!");
         InMemoryTaskManager manager = new InMemoryTaskManager();
-    /* Денис, писала в Слаке, решила все-таки послать весь проект:
-    Что не так? История пустая, хотя
-    historyManager.add(taskTask.getOrDefault(number, null)); - работает
+    /* Денис, спасибо за комментарии, сразу все просто и понятно.
+    С тобой приятно иметь дело. Постаралась все исправить.
     */
 
         // Проверка : Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
@@ -36,42 +35,42 @@ public class Main {
         manager.createSubTask(task7);
         System.out.println("История запросов: " + manager.getHistory());
         // печать объектов по идентификатору:
-        int numberTask = 6;
-        System.out.println("Задача № " + numberTask + ": " + manager.getEpicById(numberTask));
-        numberTask = 2;
-        System.out.println("Задача № " + numberTask + ": " + manager.getTaskById(numberTask));
-        numberTask = 7;
-        System.out.println("Задача № " + numberTask + ": " + manager.getSubTaskById(numberTask));
+        int idTask = 6;
+        System.out.println("Задача № " + idTask + ": " + manager.getEpicById(idTask));
+        idTask = 2;
+        System.out.println("Задача № " + idTask + ": " + manager.getTaskById(idTask));
+        idTask = 7;
+        System.out.println("Задача № " + idTask + ": " + manager.getSubTaskById(idTask));
 
-         // получение списка задач эпика № 3 по Epic.idSubTask:
+        // получение списка задач эпика № 3 по Epic.idSubTask:
         System.out.println("У Эпика 3 следующие подзадачи:" + '\n' + manager.getListSubTasks(3));
         // получение списка задач эпика № 6 по SubTask.idEpic:
         System.out.println("У Эпика 6 следующие подзадачи:" + '\n' + manager.getListSubTasks(6));
 
         // изменить статусы задач по идентификатору:
         // простая задача:
-        numberTask = 1;
-        System.out.println("Текущий статус Задачи № " + numberTask + ": " + manager.getStatusById(numberTask));
+        idTask = 1;
+        System.out.println("Текущий статус Задачи № " + idTask + ": " + manager.getStatusById(idTask));
         task1.setStatus(StatusTask.DONE);
         manager.updatedTask(task1);
-        System.out.println("Новый статус Задачи № " + numberTask + ": " + manager.getStatusById(numberTask));
+        System.out.println("Новый статус Задачи № " + idTask + ": " + manager.getStatusById(idTask));
 
         // подзадача:
-        numberTask = 4;
-        System.out.println("Текущий статус Задачи № " + numberTask + ": " + manager.getStatusById(numberTask));
+        idTask = 4;
+        System.out.println("Текущий статус Задачи № " + idTask + ": " + manager.getStatusById(idTask));
         task4.setStatus(StatusTask.DONE);
         manager.updatedSubTask(task4);
-        System.out.println("Новый статус подзадачи № " + numberTask + ": " + manager.getStatusById(numberTask));
-        System.out.println("Новый статус Эпика № " + (numberTask - 1)
-                + ": " + manager.getStatusById(numberTask - 1));
+        System.out.println("Новый статус подзадачи № " + idTask + ": " + manager.getStatusById(idTask));
+        System.out.println("Новый статус Эпика № " + (idTask - 1)
+                + ": " + manager.getStatusById(idTask - 1));
 
-        numberTask = 5;
-        System.out.println("Текущий статус Задачи № " + numberTask + ": " + manager.getStatusById(numberTask));
+        idTask = 5;
+        System.out.println("Текущий статус Задачи № " + idTask + ": " + manager.getStatusById(idTask));
         task5.setStatus(StatusTask.NEW);
         task5.setContent("Придумать конкурсы, Купить призы для конкурсов, Подобрать музыку");
         manager.updatedSubTask(task5);
         System.out.println("У Эпика 3 следующие подзадачи:" + '\n' + manager.getListSubTasks(3));
-        System.out.println("Новый статус подзадачи № " + numberTask + ": " + manager.getStatusById(numberTask));
+        System.out.println("Новый статус подзадачи № " + idTask + ": " + manager.getStatusById(idTask));
         System.out.println("Новый статус Эпика № 3: " + manager.getStatusById(3));
         task3.setContent("Заказать ресторан, Купить подарок, Подготовить сценарий, Составить список гостей");
         manager.updatedEpic(task3);

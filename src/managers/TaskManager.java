@@ -9,8 +9,6 @@ import java.util.List;
 public interface TaskManager {
     List<Task> getHistory();
 
-    //void addHistory(Task task);
-
     void createTask(Task task);
 
     void createSubTask(Subtask subTask);
@@ -23,21 +21,21 @@ public interface TaskManager {
 
     void updatedSubTask(Subtask subTask);
 
-    Task getTaskById(int number);
+    Task getTaskById(int id);
 
-    Epic getEpicById(int number);
+    Epic getEpicById(int id);
 
-    Subtask getSubTaskById(int number);
+    Subtask getSubTaskById(int id);
 
-    List<Subtask> getListSubTasks(int number);
+    List<Subtask> getListSubTasks(int id);
 
-    StatusTask getStatusById(int number);
+    StatusTask getStatusById(int id);
 
-    void deleteTaskById(int number);
+    void deleteTaskById(int id);
 
-    void deleteSubTaskById(int number);
+    void deleteSubTaskById(int id);
 
-    void deleteEpicById(int number);
+    void deleteEpicById(int id);
 
     void deleteAllTask();
 }

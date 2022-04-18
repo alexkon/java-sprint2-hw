@@ -1,17 +1,21 @@
 package managers;
 
 import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    public List<Task> history = new ArrayList<>();
+    private List<Task> history = new ArrayList<>();
+    private final int historyMaxLength = 10;
 
     @Override
     public void add(Task task) {
         if (task != null) {
+            if (history.size() == 10) {
+                history.remove(0);
+            }
             this.history.add(task);
-            System.out.println("История запросов: " + history); // для проверки
         }
     }
 
