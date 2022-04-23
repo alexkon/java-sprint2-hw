@@ -4,7 +4,6 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +121,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int id) {
         if (tasks.containsKey(id)) {
+            historyManager.remove(id);
             tasks.remove(id);
         } else {
             System.out.println("Задачи с номером " + id + " нет в списке!");
@@ -134,6 +134,7 @@ public class InMemoryTaskManager implements TaskManager {
             int idEpic = subtasks.get(id).getIdEpic();
             epics.get(idEpic).deleteSubTask(subtasks.get(id));
             setStatusEpic(idEpic);
+            historyManager.remove(id);
             subtasks.remove(id);
         } else {
             System.out.println("Подзадачи с номером " + id + " нет в списке!");
@@ -145,7 +146,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (epics.containsKey(id)) {
             for (Subtask subTaskEpic : epics.get(id).getListSubTask()) {
                 subtasks.remove(subTaskEpic.getId());
+                historyManager.remove(subTaskEpic.getId());
             }
+            historyManager.remove(id);
             epics.remove(id);
         } else {
             System.out.println("Эпика с номером " + id + " нет в списке!");
@@ -164,6 +167,7 @@ public class InMemoryTaskManager implements TaskManager {
             epics.clear();
         }
         this.id = 0;
+
     }
 
     private int getId() {
