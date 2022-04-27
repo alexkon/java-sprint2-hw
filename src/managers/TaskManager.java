@@ -9,6 +9,12 @@ import java.util.List;
 public interface TaskManager {
     List<Task> getHistory();
 
+    List<Task> getAllTasks();
+
+    List<Epic> getAllEpics();
+
+    List<Subtask> getAllSubtasks();
+
     void createTask(Task task);
 
     void createSubTask(Subtask subTask);

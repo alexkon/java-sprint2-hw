@@ -5,7 +5,7 @@ import tasks.Task;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    public Map<Integer, Node> mapHistory = new HashMap<>();
+    private final Map<Integer, Node> mapHistory = new HashMap<>();
     private Node head = null;
     private Node tail = null;
     private int size = 0;
@@ -39,17 +39,14 @@ public class InMemoryHistoryManager implements HistoryManager {
             head = null;
             tail = null;
             return;
-        }
-        if (node.next == null) {
+        } else if (node.next == null) {
             node.prev.next = null;
             tail = node.prev;
-        }
-        if (node.prev == null) {
+        } else if (node.prev == null) {
             node.next.prev = null;
             head = node.next;
-        }
-
-        if ((node.prev != null) && (node.next != null)) {
+        } else {
+            //((node.prev != null) && (node.next != null)) {
             node.prev.next = node.next;
             node.next.prev = node.prev;
         }

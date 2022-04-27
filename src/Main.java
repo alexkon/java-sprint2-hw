@@ -33,6 +33,10 @@ public class Main {
                 "Выбрать место отдыха, Собрать вещи");
         manager.createEpic(task7);
 
+        System.out.println("Все таски: " + manager.getAllTasks());
+        System.out.println("Все эпики: " + manager.getAllEpics());
+        System.out.println("Все субтаски: " + manager.getAllSubtasks());
+
         System.out.println("История запросов: " + manager.getHistory());
         // печать задач по идентификатору:
         System.out.println("Задача № " + 3 + ": " + manager.getEpicById(3));
@@ -48,8 +52,10 @@ public class Main {
 
         // удаление задач
         manager.deleteTaskById(1);
+        System.out.println("У Эпика 3 следующие подзадачи:" + '\n' + manager.getListSubTasks(3));
         manager.deleteSubTaskById(4);
         System.out.println("История запросов: " + manager.getHistory());
+        System.out.println("У Эпика 3 следующие подзадачи:" + '\n' + manager.getListSubTasks(3));
         manager.deleteEpicById(3);
         System.out.println("История запросов: " + manager.getHistory());
     }
