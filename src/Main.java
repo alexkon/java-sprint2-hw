@@ -7,6 +7,9 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Пришло время практики!");
         InMemoryTaskManager manager = new InMemoryTaskManager();
+    /*Привет, Александр. Ты оказался прав. Все лишнее удалила.
+    Спасибо, благодаря этому даже понимание процессов как-то изменилось.
+    */
 
         // Проверка : Создайте 2 задачи, один эпик с 3 подзадачами, а другой эпик без подзадач.
         Task task1 = new Task("task", "Переезд", "Собрать коробки, Упаковать кошку,"

@@ -20,11 +20,6 @@ public class Epic extends Task {
         return subtasks;
     }
 
-    public void updatedListSubTask(Subtask subTask) {
-        int indexSubTask = this.subtasks.indexOf(subTask);
-        this.subtasks.set(indexSubTask, subTask);
-    }
-
     public void deleteSubTask(Subtask subTask) {
         this.subtasks.remove(subTask);
     }
