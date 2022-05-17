@@ -1,5 +1,7 @@
 package tasks;
 
+import managers.TypeTask;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,8 +9,8 @@ import java.util.Objects;
 public class Epic extends Task {
     private List<Subtask> subtasks;
 
-    public Epic(String type, String title, String content) {
-        super(type, title, content);
+    public Epic(TypeTask type, String name, String description) {
+        super(type, name, description);
         this.subtasks = new ArrayList<>();
     }
 
@@ -32,14 +34,14 @@ public class Epic extends Task {
         Epic otherTask = (Epic) obj;
         return (id == otherTask.id) &&
                 Objects.equals(type, otherTask.type) &&
-                Objects.equals(title, otherTask.title) &&
-                Objects.equals(content, otherTask.content) &&
+                Objects.equals(name, otherTask.name) &&
+                Objects.equals(description, otherTask.description) &&
                 Objects.equals(status, otherTask.status) &&
                 Objects.equals(subtasks, otherTask.subtasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.type, this.title, this.content, this.status, this.subtasks);
+        return Objects.hash(this.id, this.type, this.name, this.description, this.status, this.subtasks);
     }
 }
