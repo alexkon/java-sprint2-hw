@@ -20,16 +20,17 @@ public class CSVSerializator {
     }
 
     public static String toStringHistory(HistoryManager historyManager) {
-        String lineHistory = "";
+        StringBuilder lineHistory = new StringBuilder("");
 
         for (Task task : historyManager.getHistory()) {
-            lineHistory = lineHistory + task.getId() + ",";
+            lineHistory.append(task.getId());
+            lineHistory.append(",");
         }
 
-        if (lineHistory != null && lineHistory.length() > 0) {
-            lineHistory = lineHistory.substring(0, lineHistory.length() - 1);
+        if (lineHistory.length() > 0) {
+            lineHistory.setLength(lineHistory.length() - 1);
         }
-        return lineHistory;
+        return lineHistory.toString();
     }
 
     public Task fromString(String value) {
