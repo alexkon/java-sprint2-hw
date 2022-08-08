@@ -45,4 +45,45 @@ class EpicTest {
         assertNotNull(epicStatus, "Эпик не найден!");
         assertEquals(StatusTask.NEW, epicStatus, "У пустого эпика статус должен быть NEW!");
     }
+
+    @Test
+    void testEpicStatusForNewAndDoneSubtasks() {
+        Epic epic = new Epic(
+                TypeTask.EPIC,
+                "Эпик",
+                "Эпик.Описание",
+                LocalDateTime.now(),
+                0L
+        );
+
+        manager.createEpic(epic);
+        int id = epic.getId();
+
+        Subtask task1 = new Subtask(
+                TypeTask.SUBTASK,
+                "Подзадача1",
+                "Подзадача1.Описание",
+                LocalDateTime.now(),
+                0L,
+                id
+        );
+
+        Subtask task2 = new Subtask(
+                TypeTask.SUBTASK,
+                "Подзадача2",
+                "Подзадача2.Описание",
+                LocalDateTime.now(),
+                0L,
+                id
+        );
+        task2.setStatus(StatusTask.DONE);
+
+        manager.createSubTask(task1);
+        manager.createSubTask(task2);
+
+
+        StatusTask epicStatus = manager.getStatusById(id);
+        assertNotNull(epicStatus, "Эпик не найден!");
+        assertEquals(StatusTask.IN_PROGRESS, epicStatus, String.format("Для текущего Эпика статус должен быть IN_PROGRESS! Текущий статус: %s", epicStatus));
+    }
 }
