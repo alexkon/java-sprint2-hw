@@ -4,10 +4,14 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
 
     List<Task> getAllTasks();
 
@@ -36,6 +40,8 @@ public interface TaskManager {
     List<Subtask> getListSubTasks(int id);
 
     StatusTask getStatusById(int id);
+
+    //LocalDateTime getEndTime(int id);
 
     void deleteTaskById(int id);
 

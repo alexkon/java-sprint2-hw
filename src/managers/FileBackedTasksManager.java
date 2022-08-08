@@ -6,8 +6,10 @@ import tasks.Task;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
@@ -144,6 +146,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return super.getHistory();
     }
 
+    @Override
+    public List<Task> getPrioritizedTasks() {
+        return super.getPrioritizedTasks();
+    }
+
     public static FileBackedTasksManager loadFromFile(String file) {
         final FileBackedTasksManager manager = new FileBackedTasksManager("resources/tasks.csv");
         manager.load();
@@ -228,27 +235,34 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         TaskManager manager = Managers.getDefault();
 
         Task task1 = new Task(TypeTask.TASK, "Переезд", "Собрать коробки; Упаковать кошку;"
-                + " Сказать слова прощания");
+                + " Сказать слова прощания",
+                LocalDateTime.of(2222, 6, 10, 10, 30), 78356L);
         manager.createTask(task1);
         Task task2 = new Task(TypeTask.TASK, "Спортивный корпоративный праздник",
-                "Создать команду; Купить форму; Выбрать место; Купить призы");
+                "Создать команду; Купить форму; Выбрать место; Купить призы",
+                LocalDateTime.of(2222, 7, 20, 14, 0), 18356L);
         manager.createTask(task2);
 
         Epic task3 = new Epic(TypeTask.EPIC, "Юбилей бабушки",
-                "Заказать ресторан; Купить подарок; Подготовить сценарий");
+                "Заказать ресторан; Купить подарок; Подготовить сценарий",
+                LocalDateTime.of(2222, 8, 15, 18, 0), 0L);
         manager.createEpic(task3);
 
         Subtask task4 = new Subtask(TypeTask.SUBTASK, "Заказать ресторан",
-                "Украсить зал; Придумать меню", 3);
+                "Украсить зал; Придумать меню",
+                LocalDateTime.of(2222, 8, 15, 18, 0), 8356L,3);
         manager.createSubTask(task4);
         Subtask task5 = new Subtask(TypeTask.SUBTASK, "Подготовить сценарий",
-                "Найти аниматора; Согласовать конкурсы", 3);
+                "Найти аниматора; Согласовать конкурсы",
+                LocalDateTime.of(2222, 8, 15, 18, 0), 8356L,3);
         manager.createSubTask(task5);
         Subtask task6 = new Subtask(TypeTask.SUBTASK, "Купить подарок",
-                "Заказать подарок; организовать доставку", 3);
+                "Заказать подарок; организовать доставку",
+                LocalDateTime.of(2222, 8, 15, 18, 0), 8356L,3);
         manager.createSubTask(task6);
         Epic task7 = new Epic(TypeTask.EPIC, "Поездка в отпуск",
-                "Выбрать место отдыха; Собрать вещи");
+                "Выбрать место отдыха; Собрать вещи",
+                LocalDateTime.of(2222, 8, 15, 18, 0), 0L);
         manager.createEpic(task7);
 
         System.out.println("Задача № " + 3 + ": " + manager.getEpicById(3));

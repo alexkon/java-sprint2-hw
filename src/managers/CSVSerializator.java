@@ -4,10 +4,16 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CSVSerializator {
+    public static final DateTimeFormatter DATE_TIME_FORMATTER
+            = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm ");
+    //public static final DateTimeFormatter DURATION_FORMATTER
+    //        = DateTimeFormatter.ofPattern("Продолжительность лет: yy, месяцев: MM, дней: dd, часов: HH, минут: mm");
 
     public static List<Integer> fromStringHistory(String value) {
         List<Integer> history = new ArrayList<>();
@@ -45,25 +51,29 @@ public class CSVSerializator {
         String name = elements[2];
         StatusTask status = StatusTask.valueOf(elements[3]);
         String description = elements[4];
+        LocalDateTime startTime = LocalDateTime.parse(elements[5], DATE_TIME_FORMATTER);
+        Long duration = Long.parseLong(elements[6]);
+
         int epicId = 0;
 
         if (type == TypeTask.SUBTASK) {
-            epicId = Integer.parseInt(elements[5]);
+            epicId = Integer.parseInt(elements[7]);
         }
 
         switch (type) {
             case TASK:
-                Task task = new Task(type, name, description);
+                Task task = new Task(type, name, description, startTime, duration);
                 task.setId(id);
                 task.setStatus(status);
                 return task;
             case EPIC:
-                Epic epic = new Epic(type, name, description);
+                Epic epic = new Epic(type, name, description, startTime, duration);
                 epic.setId(id);
                 epic.setStatus(status);
+                // endTime()
                 return epic;
             case SUBTASK:
-                Subtask subtask = new Subtask(type, name, description, epicId);
+                Subtask subtask = new Subtask(type, name, description, startTime, duration, epicId);
                 subtask.setId(id);
                 subtask.setStatus(status);
                 return subtask;
@@ -73,7 +83,8 @@ public class CSVSerializator {
 
     public String toString(Task task) {
         String lineTask = task.getId() + "," + task.getType() + ","
-                + task.getName() + "," + task.getStatus() + "," + task.getDescription() + ",";
+                + task.getName() + "," + task.getStatus() + "," + task.getDescription() + ","
+                + task.getStartTime().format(DATE_TIME_FORMATTER) + "," + task.getDuration() + ",";
 
         if (task.getType() == TypeTask.SUBTASK) {
             Subtask subtask = (Subtask) task;
